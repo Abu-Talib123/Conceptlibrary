@@ -1,0 +1,148 @@
+
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Cart extends CI_Controller {
+  public function __construct()
+  {
+      parent::__construct();
+      if(!$this->session->userdata('CL_STUDENT_ID') || $this->session->userdata('CL_STUDENT_ID')=='')
+      {
+      redirect(base_url().'login');
+      }
+      //$this->load->library('cart');
+      $this->load->model('cart_model');
+      $this->load->model('video_model');
+      $this->load->model('payment_model');
+      $this->load->model("student_model", 'student_model');
+  }
+ 
+ function index()
+ {
+  $data['page_title'] = 'Concept Library';
+  $data['sub_title']  = 'Product Review';
+  $data['load_js']    = 'cart';
+  $data['cartdata']   = $this->cart_model->fetch_cart($this->session->userdata('CL_STUDENT_ID'));
+  $data['load_view']  = 'cart_review';
+  $this->load->view('template', $data);
+ }
+
+ function add()
+ {
+    $subcategory_id   = @$this->input->post('subcategory_id');
+    $domain_type      = @$this->input->post('product_type');
+    $fetch_paiddomain = $this->video_model->fetch_paidvideobysubcat($_POST['subcategory_id']);
+    if($fetch_paiddomain['status']==1)
+     {
+        $data['subcategory_id']    =  $fetch_paiddomain['subcategory_id']; 
+        $data['student_id']        =  $this->session->userdata('CL_STUDENT_ID');
+        $data['subcategory_name']  =  $fetch_paiddomain['subcategory_name'];
+        $data['subcategory_price'] =  $fetch_paiddomain['price'];
+        $data['domain_type']       =  $domain_type;
+        $data['status']            =  1;
+        $studentcart               = $this->cart_model->insert_cart($data);
+     }
+  
+    $this->index();
+ }
+ function add_total()
+ {
+    $subcategory_id   = @$this->input->post('material_id');
+    $domain_type      = @$this->input->post('product_type');
+    $domaincount      = count($subcategory_id);
+    for($i=0;$i<$domaincount;$i++)
+    {
+       $fetch_paiddomain = $this->video_model->fetch_paidvideobysubcat($_POST['material_id'][$i]);
+       if($fetch_paiddomain['status']==1)
+       {
+          $data['subcategory_id']    =  $fetch_paiddomain['subcategory_id']; 
+          $data['student_id']        =  $this->session->userdata('CL_STUDENT_ID');
+          $data['subcategory_name']  =  $fetch_paiddomain['subcategory_name'];
+          $data['subcategory_price'] =  $fetch_paiddomain['price'];
+          $data['domain_type']       =  $domain_type;
+          $data['status']            =  1;
+          $studentcart               = $this->cart_model->insert_cart($data);
+       }
+     
+    }
+   
+   // $this->index();
+ }
+
+ function load()
+ {
+  echo $this->view();
+ }
+
+ function remove()
+ {
+  $row_id       = $_POST["row_id"];
+  $updatestatus = $this->cart_model->update_cart($row_id);
+ 
+ }
+
+ function clear()
+ {
+   $this->db->empty_table('cart'); 
+ }
+ 
+ function view()
+ {
+  $this->index();
+ }
+
+ function proceed_payment()
+  {
+
+    $codedata=array();
+    $get_lastdetails =  $this->payment_model->fetch_lastdetails();
+     if($get_lastdetails->num_rows()>0)
+    {
+      foreach($get_lastdetails->result_array() as $row)
+      {
+        $codedata['payment_id'] = $row['payment_id'];
+        $alpha =  substr($codedata['payment_id'],0,2);
+        $number = (int) substr($codedata['payment_id'],2,strlen($codedata['payment_id'])-1)+1;
+         }
+       $paymentid = $alpha.STR_PAD((string)$number,2,"0",STR_PAD_LEFT);
+
+    }
+    else
+    {
+      $paymentid= 'PA'.date('ymd').'01';
+    }
+    
+    $material_id     =  @$this->input->post('material_id');
+    $materialcount   = count( $material_id);
+        for($i=0;$i<$materialcount;$i++)
+        {
+          $postdata['student_id']   = $this->session->userdata('CL_STUDENT_ID');
+          $postdata['payment_id']   = $paymentid;
+          $postdata['material_id']  =  $_POST['material_id'][$i];
+          $postdata['material_type']=  $_POST['material_type'][$i];
+          $postdata['payment_date'] = date('Y-m-d H:i:s');
+          $paymentdetail            = $this->payment_model->insert_payment($postdata);
+          $updatecartdetail         = $this->cart_model->delete_cart($postdata['material_id'],$postdata['student_id']);
+            if($paymentdetail)
+            {
+              $payment_status['payment_status']  = 1;
+              $res = $this->student_model->update_paymentstatus($postdata['student_id'], $payment_status);
+
+               //$this->cart->destroy();
+              $result['resultCode'] = 1;
+              //$result['material_id']= $postdata['material_id'];
+            }else{
+                $result['resultCode'] = 0;
+            }
+        }
+    echo json_encode($result);
+  }
+  function  after_payment()
+  {
+    $data['page_title']     = 'Concept Library';
+    $data['sub_title']      = 'Mock Papers';
+    $data['load_view']      = 'after_payment';
+    $this->load->view('template', $data);
+
+  }
+}

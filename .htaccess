@@ -1,0 +1,22 @@
+RewriteEngine On
+
+RewriteBase /application_latest_3/
+
+# Redirect HTTP traffic to HTTPS
+#RewriteCond %{HTTP_HOST}  \.
+#RewriteCond %{HTTPS} off
+#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Redirect HTTP traffic to HTTPS With Load Balancer
+# RewriteCond %{HTTP:X-Forwarded-Proto} =http
+# RewriteRule . https://%{HTTP:Host}%{REQUEST_URI} [L,R=permanent]
+
+RewriteCond %{ENV:REDIRECT_APP_PATH} !^$
+RewriteRule ^(.*)$ - [E=APP_PATH:%{ENV:REDIRECT_APP_PATH}]
+
+RewriteCond %{ENV:APP_PATH} ^$
+RewriteRule ^(.*)$ - [E=APP_PATH:/$1]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [L]
