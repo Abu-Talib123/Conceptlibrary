@@ -85,7 +85,7 @@
 
                   <li class="nav-item">
 
-                     <a href="<?= base_url('admin/blog/categories') ?>" class="nav-link  <?php if ($sub_title == 'Categories') {
+                     <a href="<?= base_url('admin/blog/view_categories') ?>" class="nav-link  <?php if ($sub_title == 'Categories') {
                           echo 'active';
                        } ?>">
 
@@ -96,21 +96,6 @@
                      </a>
 
                   </li>
-
-                  <li class="nav-item">
-
-                     <a href="<?= base_url('admin/blog/tags') ?>" class="nav-link <?php if ($sub_title == 'Tags') {
-                          echo 'active';
-                       } ?>">
-
-                        <i class="far fa-circle nav-icon"></i>
-
-                        <p>Tags</p>
-
-                     </a>
-
-                  </li>
-
                </ul>
 
             </li>

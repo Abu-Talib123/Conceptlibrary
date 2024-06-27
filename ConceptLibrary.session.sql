@@ -1,1 +1,1 @@
-SHOW COLUMNS FROM blog;
+SELECT * FROM blog_category ;

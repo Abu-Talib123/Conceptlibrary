@@ -101,6 +101,7 @@ class Blog extends CI_Controller {
 		} else {
 			$data['page_title'] = 'Edit Blog';
 			$data['sub_title'] = 'Edit Post';
+			$data['categories'] = $this->blog_model->get_categories(); 
 			$data['load_view'] = 'admin/blog/edit_blog';
 			$this->load->view('admin/template', $data);
 		}
@@ -112,6 +113,7 @@ class Blog extends CI_Controller {
             'title' => $this->input->post('title'),
             'discription' => $this->input->post('discription'),
 			'author_name'  => $this->input->post('author_name'),
+			'category_id'   => $this->input->post('category_id'),
             'updated_at' => date('Y-m-d H:i:s')
         );
         
@@ -119,15 +121,187 @@ class Blog extends CI_Controller {
         redirect('admin/blog');
     }
 
-	public function delete_blog($id)
-    {
-		$result = ['resultCode' => 0, 'resultMsg' => 'Failed to delete blog post'];
-		if ($this->blog_model->delete_blog($id)) {
-			$result = ['resultCode' => 1, 'resultMsg' => 'Blog post deleted successfully'];
-		}
-		echo json_encode($result);
+	public function delete_blog() {
+        $blogId = $this->input->post('id'); 
+        
+        $result = ['resultCode' => 0, 'resultMsg' => 'Failed to delete blog post'];
+        
+        if ($this->blog_model->delete_blog($blogId)) {
+            $result = ['resultCode' => 1, 'resultMsg' => 'Blog post deleted successfully'];
+        }
+        
+        echo json_encode($result);
     }
+	public function create_blog()
+    {
+        $data['page_title'] = 'Blog';
+        $data['sub_title'] = 'Create Post';
+		$data['categories'] = $this->blog_model->get_categories(); 
+        $data['load_view'] = 'admin/blog/create_blog';
+        $this->load->view('admin/template', $data);
+    }
+	public function save_blog()
+	{
+		// Prepare blog data
+		$data = array(
+			'title'         => $this->input->post('title'),
+			'discription'   => $this->input->post('discription'), // Corrected spelling
+			'author_name'   => $this->input->post('author_name'),
+			'category_id'   => $this->input->post('category_id'),
+			'created_at'    => date('Y-m-d H:i:s'),
+			'updated_at'    => date('Y-m-d H:i:s'),
+			'is_deleted'    => 0 
+		);
+
+		// File upload handling
+		$this->load->library('upload');
+		$blog_image = '';
+
+		if (!empty($_FILES['blog_img']['name'])) {
+			$upload_path = './includes/blogs/blog_img/';
+
+			if (!is_dir($upload_path)) {
+				mkdir($upload_path, 0777, true);
+			}
+
+			$config['upload_path']   = $upload_path;
+			$config['allowed_types'] = 'png|jpg|jpeg|bmp'; // Corrected allowed_types
+
+			$this->upload->initialize($config);
+
+			if (!$this->upload->do_upload('blog_img')) {
+				$error = array('error' => $this->upload->display_errors());
+				$blog_image = ''; // Handle error, maybe log or display message
+			} else {
+				$data_upload = $this->upload->data();
+				$blog_img = $data_upload['file_name'];
+				$blog_image = base_url('includes/blogs/blog_img/') . $blog_img; // Adjust path as per your setup
+			}
+		} else {
+			// Default image path if no image uploaded
+			$blog_image = base_url('assets/cl/images/user_pic.png');
+		}
+
+		$data['blog_image'] = $blog_image;
+
+		// Insert blog data into database using model method
+		$result = $this->blog_model->insert_blogdata($data);
+
+		if ($result) {
+			redirect(base_url('admin/blog'));
+		} else {
+			redirect(base_url('admin/student/create_blog'));
+		}
+	}
+
+	public function view_more($blog_id)
+	{
+		$data['blog'] = $this->blog_model->fetch_single_blog($blog_id);
+		if (!$data['blog']) {
+			show_404();
+		}
+		$categories = $this->blog_model->get_all_categories();
+		$data['category_map'] = array();
+		foreach ($categories as $category) {
+			$data['category_map'][$category['category_id']] = $category['name'];
+		}
+		$data['page_title'] = 'Blog';
+		$data['sub_title'] = 'View More';
+		$data['load_view'] = 'admin/blog/view_more';
+
+		$this->load->view('admin/template', $data);
+	}
+	public function create_category()
+    {
+        $data['page_title'] = 'Blog Categories';
+        $data['sub_title'] = 'Create Category';
+        $data['load_view'] = 'admin/blog/create_category';
+        $this->load->view('admin/template', $data);
+    }
+	public function save_category()
+    {
+        $data = array(
+            'name' => $this->input->post('name'),
+            'description' => $this->input->post('description')
+        );
+
+        $result = $this->blog_model->insert_blog_category_data($data);
+
+		if ($result) {
+            echo json_encode(array('status' => true, 'message' => 'Category created successfully'));
+        } else {
+            echo json_encode(array('status' => false, 'message' => 'Failed to create category'));
+        }
+    }
+	public function edit_category($id)
+    {
+        $data['category'] = $this->blog_model->get_blog_category_by_id($id);
+
+        if ($this->input->is_ajax_request()) {
+            echo $this->load->view('admin/blog/edit_category', $data, true);
+        } else {
+            $data['page_title'] = 'Edit Blog Category';
+            $data['sub_title'] = 'Edit Category';
+            $data['load_view'] = 'admin/blog/edit_category';
+            $this->load->view('admin/template', $data);
+        }
+    }
+	public function update_category($id)
+    {
+        $data = array(
+            'name' => $this->input->post('name'),
+            'description' => $this->input->post('description')
+        );
+
+        $result = $this->blog_model->update_blog_category_data($data, $id);
+
+        if ($result) {
+            echo json_encode(array('status' => true, 'message' => 'Category updated successfully'));
+        } else {
+            echo json_encode(array('status' => false, 'message' => 'Failed to update category'));
+        }
+    }
+	
+	public function delete_category()
+	{
+		$category_id = $this->input->post('id');
+		$response = array('resultCode' => 0, 'resultMsg' => 'Failed to delete category.');
+
+		if ($this->blog_model->delete_blog_category($category_id)) {
+			$response['resultCode'] = 1;
+			$response['resultMsg'] = 'Category deleted successfully.';
+		}
+
+		echo json_encode($response);
+	}
+
+
+	public function view_category($category_id)
+	{
+		$data['category'] = $this->blog_model->fetch_single_blog_category($category_id);
+		if (!$data['category']) {
+			show_404();
+		}
+		$data['page_title'] = 'Blog';
+		$data['sub_title'] = 'View More';
+		$data['load_view'] = 'admin/blog/view_category';
+
+		$this->load->view('admin/template', $data);
+	}
+	public function view_categories()
+	{
+		$data['category'] = $this->blog_model->get_all_category();
+		
+		$data['page_title'] = 'Blog';
+		$data['sub_title'] = 'View Category';
+		$data['load_view'] = 'admin/blog/view_categories';
+
+		$this->load->view('admin/template', $data);
+	}
+
 }
+
+
 
 /* End of file login.php */
 /* Location: ./application/controllers/admin/login.php */

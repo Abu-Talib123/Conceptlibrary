@@ -35,8 +35,7 @@ function ajax_edit_redirect(link) {
       url: url,
       type: 'GET',
       success: function(response) {
-          // Assuming the server returns the HTML form for editing
-          $('#content').html(response); // Replace '#content' with the ID of the container where you want to load the form
+          $('#content').html(response);
       },
       error: function(xhr, status, error) {
           alert('An error occurred: ' + xhr.responseText);
@@ -45,36 +44,39 @@ function ajax_edit_redirect(link) {
 
   return false;
 }
-$(document).ready(function() {
-  $(document).on("click", ".delete-blog", function() {
-      var blogId = $(this).data("id");
-      swal({
-          title: "Are you sure?",
-          text: "If you select Yes, this will be deleted permanently.",
-          icon: "warning",
-          buttons: ["No, keep it", "Yes, delete it"],
-          dangerMode: true,
-      }).then((willDelete) => {
-          if (willDelete) {
-              $.ajax({
-                  url: '<?php echo base_url("admin/blog/delete_blog/"); ?>' + blogId,
-                  type: 'POST',
-                  success: function(response) {
-                      var data = JSON.parse(response);
-                      if (data.resultCode == 1) {
-                          window.location.reload(); // Refresh the page
-                      } else {
-                          swal("Error", data.resultMsg, "error");
-                      }
-                  },
-                  error: function() {
-                      swal("Error", "Something went wrong", "error");
-                  }
-              });
+
+// Create category
+
+// Edit category (assuming you have an edit form)
+$('#editCategoryForm').submit(function(e) {
+  e.preventDefault();
+  var formData = $(this).serialize();
+  var categoryId = $(this).data('category-id'); // Get category ID from form data or element
+  $.ajax({
+      type: 'POST',
+      url: '<?php echo base_url("admin/blog/update_category/" + categoryId); ?>',
+      data: formData,
+      dataType: 'json',
+      success: function(response) {
+          if (response.status) {
+              alert('Category updated successfully');
+              // Optionally, update UI or redirect after success
+          } else {
+              alert('Failed to update category');
+              // Handle error message or UI update
           }
-      });
+      },
+      error: function() {
+          alert('Error updating category');
+          // Handle AJAX error
+      }
   });
 });
+
+// Delete category
+
+
+
 
 
 
