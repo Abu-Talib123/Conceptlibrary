@@ -12,7 +12,8 @@ class Student extends CI_Controller {
         $this->load->model('admin/student_model', 'student_model');
   	}
   	public function index()
-  	{
+  	{ 
+      $filter = $this->input->get('filter', TRUE);
   		$data['page_title'] = 'Student';
       $data['sub_title']  = 'List Student Details';
   		$data['load_view']  = 'admin/student/view_student';
@@ -23,7 +24,12 @@ class Student extends CI_Controller {
   		$startRow           = 0;
   		$this->ajax_pagination->initialize($custom_config);
   		$data['pagination'] = $this->ajax_pagination->create_links();
-      $data["fetch_studentdata"] = $this->student_model->fetch_studentdata($startRow, $custom_config['per_page']);
+      if ($filter) {
+        $data["fetch_studentdata"] = $this->student_model->fetch_filtered_student_list($filter,$startRow, $custom_config['per_page']);
+      }
+      else {
+        $data["fetch_studentdata"] = $this->student_model->fetch_studentdata($startRow, $custom_config['per_page']);
+      }
   		$this->load->view('admin/template', $data);
   	}
 	
@@ -53,7 +59,13 @@ class Student extends CI_Controller {
       }
       $this->ajax_pagination->initialize($custom_config);
       $data['pagination'] = $this->ajax_pagination->create_links();
-      $data['search_result'] = $this->student_model->fetch_studentdata($startRow, $custom_config['per_page']);
+      $filter = $this->input->post('filter', TRUE);
+      if ($filter) {
+        $data["search_result"] = $this->student_model->fetch_filtered_student_list($filter,$startRow, $custom_config['per_page']);
+      }
+      else {
+        $data["search_result"] = $this->student_model->fetch_studentdata($startRow, $custom_config['per_page']);
+      }
       $data['startRow']      = $startRow;
       if($this->uri->segment(3) =='fetch_student'){
 
@@ -63,6 +75,7 @@ class Student extends CI_Controller {
         $result['search_result'] = $this->load->view('admin/student/', $data, true);
         $result['pagination'] = $data['pagination'];
       }
+      $result['filter'] = $filter;  
       echo json_encode($result);
   }
 

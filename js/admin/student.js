@@ -87,13 +87,15 @@ function ajax_pagination_student(pageLink) {
   $('#student_data').html('<tr><td colspan="13" align="center"><i class="fa fa-spinner fa-spin fa-2x"></i></td></tr>');
   
   var url = site_url('admin/student/fetch_student/1');
+  var filter = $('#filter_student').val();
 
 
   if(pageLink) {
     url = pageLink.attr('href');
   }
   var data = {
-      };
+    filter: filter
+  };
 
   $.ajax({
     url: url,
@@ -103,9 +105,7 @@ function ajax_pagination_student(pageLink) {
       var obj = jQuery.parseJSON(theResponse);
       //$('#loader').show()
       $('#student_data').html(obj.search_result);
-      $('#pagination .paging').html(obj.pagination);
-      sessionStorage.setItem('LastPage', obj.search_result);
-      sessionStorage.setItem('LastPagination', obj.pagination);
+      $('#pagination .paging').html(obj.pagination);  
     }
   });
 
@@ -114,6 +114,18 @@ function ajax_pagination_student(pageLink) {
 
 
 function getStudentExamDetails(student_id) {
+  if(student_id)
+  {
+    $.ajax({
+      url: site_url('admin/student/get_student_exam_history/')+student_id,
+      type: "GET",
+      success: function (theResponse) {
+        $("#student_exam_history_result").html(theResponse);
+      }
+    });
+  }
+}
+function getStudentExamDetails(filter) {
   if(student_id)
   {
     $.ajax({

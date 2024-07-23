@@ -199,6 +199,40 @@ class Student_model extends CI_Model
             'not_attended_exams' => $not_attended_exams
         ];
     }
+    
+    function fetch_filtered_student_list($filter = false, $start_row, $limit) {
+        $student =  $this->db->query("SELECT * FROM student WHERE is_deleted = 0   ORDER BY student_id  ASC limit  $start_row, $limit");
+        $student_list = $student->result_array();
+        $students_details = [];
+
+        if ($filter === 'attended') {
+            foreach ($student_list as $student) {
+                $student_exam_details = $this->get_student_exam_details($student['student_id']);
+                $attd_exam = $student_exam_details['attended_exams'];
+                if ($attd_exam > 0) {
+                    $students_details[] = $student;
+                }
+            }
+            return $students_details;
+        } else if ($filter === 'not_attended') {
+            foreach ($student_list as $student) {
+                $student_exam_details = $this->get_student_exam_details($student['student_id']);
+                $not_attd_exam = $student_exam_details['not_attended_exams'];
+                $total_exam = $student_exam_details['total_exams'];
+                if ($not_attd_exam == $total_exam) {
+                    $students_details[] = $student;
+                }
+            }
+            return $students_details;
+        } else if( $filter === 'paid_students') {
+            $student_list =  $this->db->query("SELECT * FROM student WHERE is_deleted = 0 AND payment_status = 1   ORDER BY student_id  DESC limit  $start_row, $limit");
+            return $student_list->result_array();
+        }
+        else if( $filter === 'free_students') {
+            $student_list =  $this->db->query("SELECT * FROM student WHERE is_deleted = 0 AND payment_status = 0   ORDER BY student_id  DESC limit  $start_row, $limit");
+            return $student_list->result_array();
+        }
+    }   
    
 }
 ?>

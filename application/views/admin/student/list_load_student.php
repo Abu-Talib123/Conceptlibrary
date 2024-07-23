@@ -38,7 +38,7 @@ else
 {  
 ?>  
     <tr>  
-         <td colspan="10" align="center">No Data Found</td>  
+         <td colspan="13" align="center">No Data Found</td>  
     </tr>  
 <?php  
 }  
