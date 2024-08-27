@@ -52,7 +52,7 @@ class Login extends CI_Controller {
 						'CL_STUDENT_PHOTO'  => $studentdetail['student_photo']
     				);
     			$this->session->set_userdata($loginSesData);
-    			$inquery	=	'INSERT INTO student_logs SET
+    			$inquery	=	'INSERT INTO student_logs SETP
 							student_id	    =	\''.$studentdetail['student_id'].'\',
     							email       =	\''.$studentdetail['email'].'\',
     							ip_address	=	\''.$postdata['ipaddress'].'\',
@@ -137,92 +137,92 @@ class Login extends CI_Controller {
 		$data['load_view'] 		= 'register';
 		$this->load->view('register', $data);
 	}
-	function register_data()
-	{
-		// IP Address Details		
-		$ipaddress				=	NULL;
-		$ipaddress				=	$this->get_ip();
-		if($ipaddress==NULL || $ipaddress=='' || $ipaddress=='0')
+		function register_data()
 		{
-		  $ipaddress			=	$this->get_client_ip();
-		  if($ipaddress==NULL || $ipaddress=='' || $ipaddress=='0')
-		  {
-  			  $ipaddress		=	NULL;
-		  }
-		}
-		else
-		{
-			$ipaddress			=	$ipaddress;
-		}
-		
-	   $codedata=array();
-	   $get_lastdetails =  $this->login_model->fetch_lastdetails();
-	   if($get_lastdetails->num_rows()>0)
-		{
-			foreach($get_lastdetails->result_array() as $row)
+			// IP Address Details		
+			$ipaddress				=	NULL;
+			$ipaddress				=	$this->get_ip();
+			if($ipaddress==NULL || $ipaddress=='' || $ipaddress=='0')
 			{
-				$codedata['student_id'] = $row['student_id'];
-				$alpha =  substr($codedata['student_id'],0,2);
-				$number = (int) substr($codedata['student_id'],2,strlen($codedata['student_id'])-1)+1;
-		     }
-			 $studentid = $alpha.STR_PAD((string)$number,2,"0",STR_PAD_LEFT);
-
-		}
-		else
-		{
-			$studentid= 'CL'.date('ymd').'01';
-		}
-		$postdata['student_id'] 	= $studentid;
-		$postdata['username'] 		= $_POST['inputUsername'];
-		$postdata['mobile']    		= $_POST['inputMobile'];
-		$postdata['email']	  		= $_POST['inputEmail'];
-		$postdata['password'] 		= sha1($_POST['inputPassword']);
-		$postdata['created_at'] 	= date('Y-m-d H:i:s');
-		$postdata['otp']            = rand(1000,9999); 
-		$postdata['otp_verified']   = 0;
-		$postdata['ip_address']     = $ipaddress;
-		$postdata['is_active'] 	= 1;
-		$postdata['is_deleted'] 	= 0;
-		$query = $this->db->get_where('student', array(//making selection
-      				'email' => $this->input->post('inputEmail')
-     								));
-     	$count = $query->num_rows();	
-	     if($count===0)
-	     {
-	     	
-			$registerdetail=$this->login_model->insert_student($postdata);
-			//$folder = 'synct';
-			if($registerdetail)
+			$ipaddress			=	$this->get_client_ip();
+			if($ipaddress==NULL || $ipaddress=='' || $ipaddress=='0')
 			{
-				$otpData = array(
-                    'name' => $postdata['username'],
-                    'email' => $postdata['email'],
-                    'otp' => $postdata['otp']
-                );
-			$otpSesData = array(
-					'STUDENT_ID'  => $postdata['student_id'],
-					'STUDENT_USERNAME' => $postdata['username'],
-					'STUDENT_EMAIL' => $postdata['email'],
-					);
-					$this->session->set_userdata($otpSesData);	
-	
-
-				 // Send an email to the site admin
-                $send = $this->sendEmail($otpData);	
-				$result['resultCode']  = 1;
-				$result['resultMsg']   = 'Registered success. Please Check your Mail  For OTP';
-			}else{
-				$result['resultCode'] = 0;
-				$result['resultMsg'] = 'Invalid username or password';
+				$ipaddress		=	NULL;
 			}
-		}else
-	      {
-	         $result['resultCode'] = 0;
-	         $result['resultMsg'] = 'Email Already exists';
-	      }
+			}
+			else
+			{
+				$ipaddress			=	$ipaddress;
+			}
+			
+		$codedata=array();
+		$get_lastdetails =  $this->login_model->fetch_lastdetails();
+		if($get_lastdetails->num_rows()>0)
+			{
+				foreach($get_lastdetails->result_array() as $row)
+				{
+					$codedata['student_id'] = $row['student_id'];
+					$alpha =  substr($codedata['student_id'],0,2);
+					$number = (int) substr($codedata['student_id'],2,strlen($codedata['student_id'])-1)+1;
+				}
+				$studentid = $alpha.STR_PAD((string)$number,2,"0",STR_PAD_LEFT);
 
-		echo json_encode($result);
-	}
+			}
+			else
+			{
+				$studentid= 'CL'.date('ymd').'01';
+			}
+			$postdata['student_id'] 	= $studentid;
+			$postdata['username'] 		= $_POST['inputUsername'];
+			$postdata['mobile']    		= $_POST['inputMobile'];
+			$postdata['email']	  		= $_POST['inputEmail'];
+			$postdata['password'] 		= sha1($_POST['inputPassword']);
+			$postdata['created_at'] 	= date('Y-m-d H:i:s');
+			$postdata['otp']            = rand(1000,9999); 
+			$postdata['otp_verified']   = 0;
+			$postdata['ip_address']     = $ipaddress;
+			$postdata['is_active'] 	= 1;
+			$postdata['is_deleted'] 	= 0;
+			$query = $this->db->get_where('student', array(//making selection
+						'email' => $this->input->post('inputEmail')
+										));
+			$count = $query->num_rows();	
+			if($count===0)
+			{
+				
+				$registerdetail=$this->login_model->insert_student($postdata);
+				//$folder = 'synct';
+				if($registerdetail)
+				{
+					$otpData = array(
+						'name' => $postdata['username'],
+						'email' => $postdata['email'],
+						'otp' => $postdata['otp']
+					);
+				$otpSesData = array(
+						'STUDENT_ID'  => $postdata['student_id'],
+						'STUDENT_USERNAME' => $postdata['username'],
+						'STUDENT_EMAIL' => $postdata['email'],
+						);
+						$this->session->set_userdata($otpSesData);	
+		
+
+					// Send an email to the site admin
+					$send = $this->sendEmail($otpData);	
+					$result['resultCode']  = 1;
+					$result['resultMsg']   = 'Registered success. Please Check your Mail  For OTP';
+				}else{
+					$result['resultCode'] = 0;
+					$result['resultMsg'] = 'Invalid username or password';
+				}
+			}else
+			{
+				$result['resultCode'] = 0;
+				$result['resultMsg'] = 'Email Already exists';
+			}
+
+			echo json_encode($result);
+		}
 	public function otp_verification()
 	{
 		$data['page_title'] 	= 'Concept Library';
@@ -269,6 +269,7 @@ class Login extends CI_Controller {
 	private function sendEmail($otpData){
         // Load the email library
         $this->load->library('email');
+		$this->config->load('email');
         
         // Mail config
         $to = $otpData['email'];
@@ -288,7 +289,7 @@ class Login extends CI_Controller {
         $this->email->message($mailContent);
         
         // Send email & return status
-        return $this->email->send()?true:false;
+        return $this->email->send()? true : false;
     }
     function forget_password()
     {
@@ -398,6 +399,7 @@ class Login extends CI_Controller {
 			$ipaddress = 'UNKNOWN';
 		return $ipaddress;
 	}
+	
 	
 	
 }

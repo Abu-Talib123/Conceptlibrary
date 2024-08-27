@@ -30,7 +30,7 @@ $(document).ready(function () {
                     var obj = jQuery.parseJSON(theResponse);
                     console.log(theResponse);
                     if(obj.resultCode == 1) {
-                    window.location = site_url('home');
+                        window.location = site_url('home');
                     }
                     if (obj.resultCode == 0) {
                         $('#ajax_error').html(obj.resultMsg);

@@ -14,6 +14,7 @@ class MockPaper extends CI_Controller {
 		$data['fetch_categorydata'] = $this->Common_model->fetch_categorydata();
 		$data['load_view'] 			= 'mock_paper';
 		$this->load->view('template', $data);
+		
 	}
 	function course()
 	{
@@ -463,6 +464,22 @@ function up_studentdata()
 
     	echo $this->mock_model->get_student_answers_count($exam_id, $student_id);
     }
+	public function free_test()
+	{
+		$data['page_title'] 	= 'Concept Library';
+		$data['sub_title'] 		= 'Free Test';
+		$data['question'] 		= $this->mock_model->free_test_questions();
+		$question_json 			= json_encode( $data['question']);
+		$data['load_js'] 		= 'mock_test';
+		$data['json_question'] 	= $question_json;
+		$exam_id 				= array_values($data['question'])[0];
+		$data['exam_data']		= $this->mock_model->fetch_exam($exam_id['exam_id']);
+		$data['exam_id'] 		= $exam_id;
+		$data['load_view'] 		= 'free_test';
+		
+		$this->load->view('template', $data);
+		
+	}
 }
 /* End of file MockPaper.php */
 /* Location: ./application/controllers/MockPaper.php */

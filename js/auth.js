@@ -92,7 +92,7 @@ $(document).ready(function () {
                 success: function(theResponse) {
                     var obj = jQuery.parseJSON(theResponse);
                     if(obj.resultCode == 1) {
-                    //alert($('#site_url').val() + 'admin/home')
+                    alert($('#site_url').val() + 'admin/home')
                     if(res == 'VI')
                     {
                     window.location = site_url('video/video_detail/')+material_id;
@@ -101,6 +101,7 @@ $(document).ready(function () {
                     }
                    }
                     if (obj.resultCode == 0) {
+                        console.log('errornlkvnslvnsln');
                         $('#ajax_error').html(obj.resultMsg);
                     }
                 }

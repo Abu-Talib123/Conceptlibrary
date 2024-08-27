@@ -24,7 +24,7 @@ class Student_model extends CI_Model
             return false;
         }
     }
-   
+    
     function fetch_student($id)  
     {  
         $upqry      =   'SELECT * FROM student WHERE student_id = \''.$id.'\' ';

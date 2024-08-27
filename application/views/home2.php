@@ -1,74 +1,230 @@
 <style>
 
 </style>
-<div class="site-section">
+<?php if ($student_result) {?>
+<div class="site-section topper-section py-2"
+    style="background-image: url('<?= base_url('assets/cl/images/result_bg.jpg') ?>');">
     <div class="container">
-        <div class="row justify-content-center text-center">
+        <div class="row justify-content-center text-center mb-3">
             <div class="col-lg-4">
-                <h4 class="section-title-underline mb-5">
-                    <span>Toppers</span>
+                <h4 class="section-title-underline  text-white">
+                    <span>Toppers <?php echo $result_year ?></span>
                 </h4>
             </div>
         </div>
-        <div class="row">
+        <div class="w-100 d-flex justify-content-evenly rslt-container my-3 ">
+            <?php
+                $i = 1;
+                ?>
+                <?php
+                foreach ($student_result as $std) { ?>
+                    <div class=" m-2 ">
+                        <a href="#" class="read_more" data-toggle="modal" data-target="#resultModal<?php echo $i; ?>">
+                            <div class="result_continer position-relative p-4 text-white">
+                                <div class="std_image d-flex justify-content-center align-items-center my-2">
+                                    <?php if ($std['student_image']): ?>
+                                        <div class=''>
+                                            <img width="150" height="150" align="absmiddle" id="uploadImage"
+                                                class="profile-img res-img shadow border-primary"
+                                                src="<?= $std['student_image'] ?>" />
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="">
+                                            <img width="150" height="150" align="absmiddle" id="uploadImage"
+                                                class="profile-img shadow res-img border-primary"
+                                                src="<?= base_url('assets/cl/images/user_pic.png') ?>" />
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="ribbon position-absolute d-flex justify-content-center align-items-center" style="top:5px; right:15px;">
+                                    <p class="m-0"> <i class="fad fa-ribbon"></i><?php echo $std['rank'] ?></p>
+                                </div>
+                                <div class="std_details my-3">
+                                    <p class='h5 text-center font-weight-bold text-uppercase'
+                                        style="text-shadow: -2px 2px 8px rgba(0,0,0,0.6);"> <?php echo $std['name'] ?></p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="modal fade" id="resultModal<?php echo $i; ?>" tabindex="-1" role="dialog"
+                            aria-labelledby="resultModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-xl mx-auto" role="document">
+                                <div class="modal-content result_continer text-white">
+                                    <div class="modal-header">
+                                        <h5>Toppers - <?php echo $std['passed_year']; ?></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body p-3">
+                                        <div class="std_image d-flex justify-content-center align-items-center my-3">
+                                            <?php if ($std['student_image']): ?>
+                                                <div class=''>
+                                                    <img width="150" height="150" align="absmiddle" id="uploadImage"
+                                                        class="profile-img res-img shadow border-primary"
+                                                        src="<?= $std['student_image'] ?>" />
+                                                </div>
+                                            <?php else: ?>
+                                                <div class="">
+                                                    <img width="150" height="150" align="absmiddle" id="uploadImage"
+                                                        class="profile-img shadow res-img border-primary"
+                                                        src="<?= base_url('assets/cl/images/user_pic.png') ?>" />
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="ribbon position-absolute d-flex justify-content-center align-items-center" style="top:0; right:30%;">
+                                            <p class="m-0"> <i class="fad fa-ribbon"></i><?php echo $std['rank'] ?></p>
+                                        </div>
+                                        <div class="std_details my-3">
+                                            <div class="table-responsive my-3">
+                                                <table class="table w-100">
+                                                    <tbody>
+                                                        <tr class='border border-0'>
+                                                            <th>Name</th>
+                                                            <td><?php echo $std['name'] ?></td>
+                                                        </tr>
+                                                        <tr class='border border-0'>
+                                                            <th>Course</th>
+                                                            <td><?php echo $std['course'] ?></td>
+                                                        </tr>
+                                                        <tr class='border border-0'>
+                                                            <th>Passed Year</th>
+                                                            <td><?php echo $std['passed_year'] ?></td>
+                                                        </tr>
+                                                        <tr class='border border-0'>
+                                                            <th>Description </th>
+                                                            <td><?php echo $std['description'] ?></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                    $i++;
+                } ?>
 
-            <div class="col-lg-12">
-                <p class="text-center">Result Section will update soon</p>
-            </div>
         </div>
     </div>
 </div>
-<div class="section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h4 class="section-title-underline mb-4 text-center">
-                    <span>Our Blogs</span>
-                </h4>
-                <div class="row justify-content-between">
-                    <?php
-                    $i = 0;
-                    if ($blogs) {
+<?php } ?>
+<?php
+$i = 0;
+if ($blogs) {
+    $blogs = array_reverse($blogs);
+    ?>
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="section-title-underline my-3 text-center">
+                        <span>Our Blogs</span>
+                    </h4>
+                    <div class="row justify-content-between overflow-scroll ">
+                        <?php
                         foreach ($blogs as $blog) { ?>
-                            <div class="col-md-6 my-3">
-                                <div class="item h-100 shadow position-relative  p-0">
-                                    <div class="item-in p-4 ">
-                                        <h4 class="text-dark"><?php echo $blog['title']; ?></h4>
-                                        <div class="seperator mb-2"></div>
-                                        <?php
+                            <div class="col-md-4 my-3">
+                                <div class="item h-100 shadow position-relative p-0">
+                                    <a href="#" class="read_more" data-toggle="modal"
+                                        data-target="#blogModal<?php echo $blog['blog_id']; ?>">
+                                        <div class="blog_ig">
+                                            <?php if ($blog['blog_image']): ?>
+                                                <div class='w-100'>
+                                                    <img width="100%" height="200" align="absmiddle" id="uploadImage"
+                                                        class="profile-img" src="<?= $blog['blog_image'] ?>" />
+                                                </div>
+                                            <?php else: ?>
+                                                <div class="w-100">
+                                                    <img width="auto" height="150" align="absmiddle" id="uploadImage"
+                                                        class="profile-img"
+                                                        src="<?= base_url('assets/cl/images/video_preview') ?>" />
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="item-in p-3 ">
+                                            <h4 class="text-dark h5 font-weight-bold"><?php echo $blog['title']; ?></h4>
+                                            <div class="seperator mb-2"></div>
+                                            <?php
                                             $custome_date = date("F", strtotime($blog['created_at'])) . ' ' . date("d", strtotime($blog['created_at'])) . ', ' . date("Y", strtotime($blog['created_at']));
-                                           
-                                        ?>
-                                        <p class="my-2 " style="font-size:13px">
-                                            <?php echo $blog['author_name']; ?><span class ="mx-1">|</span><?= isset($category_map[$blog['category_id']]) ? $category_map[$blog['category_id']] : 'Uncategorized' ?><span class ="mx-1">|</span><?php echo   $custome_date; ?>
-                                        </p>
-                                        <p><?php echo $blog['discription']; ?></p>
-                                        <a href="#">Read More
-                                            <i class="fa fa-long-arrow-right"></i>
-                                        </a>
+                                            ?>
+                                            <p class="my-2 text-dark font-weight-bold" style="font-size:12px">
+                                                <?php echo $blog['author_name']; ?><span
+                                                    class="mx-1">|</span><?= isset($category_map[$blog['category_id']]) ? $category_map[$blog['category_id']] : 'Uncategorized' ?><span
+                                                    class="mx-1">|</span><?php echo $custome_date; ?>
+                                            </p>
+                                            <p class="text-dark">
+                                                <?php
+                                                $description_words = explode(' ', $blog['discription']);
+                                                $short_description = implode(' ', array_slice($description_words, 0, 20));
+                                                echo $short_description;
+                                                if (count($description_words) > 20) {
+                                                    echo '...';
+                                                }
+                                                ?>
+                                            </p>
+
+                                        </div>
+                                    </a>
+                                    <!-- Modal Structure -->
+                                    <div class="modal fade w-100" id="blogModal<?php echo $blog['blog_id']; ?>" tabindex="-1"
+                                        role="dialog" aria-labelledby="blogModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-xl  mx-auto" role="document"
+                                            style="max-width:70%!important;">
+                                            <div class="modal-content">
+                                                <div class="modal-body ">
+                                                    <button type="button" class="close position-absolute bg-danger px-3 py-2"
+                                                        style="right:0; top:0;" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <div class="blog_ig mb-3">
+                                                        <?php if ($blog['blog_image']): ?>
+                                                            <div class=''>
+                                                                <img width="100%" height="315" align="absmiddle" id="uploadImage"
+                                                                    class="profile-img" src="<?= $blog['blog_image'] ?>" />
+                                                            </div>
+                                                        <?php else: ?>
+                                                            <div class="">
+                                                                <img width="100%" height="100%" align="absmiddle" id="uploadImage"
+                                                                    class="profile-img"
+                                                                    src="<?= base_url('assets/cl/images/video_preview') ?>" />
+                                                            </div>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <div class="p-3">
+                                                        <h4 class="text-dark"><?php echo $blog['title']; ?></h4>
+                                                        <div class="seperator mb-2"></div>
+                                                        <?php
+                                                        $custome_date = date("F", strtotime($blog['created_at'])) . ' ' . date("d", strtotime($blog['created_at'])) . ', ' . date("Y", strtotime($blog['created_at']));
+                                                        ?>
+                                                        <p class="my-2 " style="font-size:13px">
+                                                            <?php echo $blog['author_name']; ?><span
+                                                                class="mx-1">|</span><?= isset($category_map[$blog['category_id']]) ? $category_map[$blog['category_id']] : 'Uncategorized' ?><span
+                                                                class="mx-1">|</span><?php echo $custome_date; ?>
+                                                        </p>
+                                                        <p>
+                                                            <?php echo nl2br(htmlspecialchars($blog['discription'])) ?>
+                                                        </p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <?php
                             $i++;
-                        }
-                    } else { ?>
-                        <div class="col-lg-12">
-                            <h5 align="center"> No Data Found</h5>
-                        </div>
-                    <?php } ?>
-                    <div class="col-md-12">
-                        <div class="viwe-m float-right">
-                            <a href="#" class="d-flex align-items-center"> More Blogs
-                                <i class="fa fa-long-arrow-right mx-2"></i>
-                            </a>
-                        </div>
+                        } ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+<?php } ?>
+
 <div class="section my-5">
     <div class="container">
         <div class="row">
@@ -298,6 +454,14 @@
     </div>
 </div>
 
+<div class="section-freetest">
+    <div class="free-test bg-white">
+        <a data-toggle="tooltip" data-placement="top" title="Take Free Mock Test" href = "<?= base_url('mockpaper/free_test') ?>">
+            <img src="<?= base_url('assets/cl/images/free-test.svg') ?>" alt="" >
+                    </a>
+        
+    </div>
+</div>
 <div class="site-section ftco-subscribe-1"
     style="background-image: url('<?= base_url('assets/cl/images/bg_1.jpg') ?>')">
     <div class="container">

@@ -10,7 +10,8 @@
 
       style="opacity: .8"> -->
 
-      <span class="brand-text font-weight-light"><b>Concept Library</b></span>
+      <span class="brand-text font-weight-light"><b><img src="<?= base_url('assets/cl/images/logo.png') ?>" width="50%"
+               height="100%" alt=""></b></span>
 
    </a>
 
@@ -38,15 +39,15 @@
 
       <!-- Sidebar Menu -->
 
-      <nav class="mt-2">
+      <nav class="mt-2 pb-5">
 
          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
             <li class="nav-item">
 
                <a href="<?= base_url('admin/home') ?>" class="nav-link <?php if ($sub_title == 'home') {
-                  echo 'active';
-               } ?>">
+                    echo 'active';
+                 } ?>">
 
                   <i class="nav-icon fas fa-tachometer-alt"></i>
 
@@ -61,13 +62,13 @@
                   echo 'active';
                } ?>">
 
-                  <i class="nav-icon fas fa-copy"></i>
+                  <i class="nav-icon far fa-newspaper"></i>
 
                   <p>Blog<i class="fas fa-angle-left right"></i></p>
 
                </a>
 
-               <ul class="nav nav-treeview">
+               <ul class="nav nav-treeview ml-2">
 
                   <li class="nav-item">
 
@@ -75,7 +76,7 @@
                           echo 'active';
                        } ?>">
 
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="fas fa-pen nav-icon"></i>
 
                         <p>Posts</p>
 
@@ -89,7 +90,7 @@
                           echo 'active';
                        } ?>">
 
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="fas fa-tag nav-icon"></i>
 
                         <p>Categories</p>
 
@@ -107,22 +108,21 @@
                   echo 'active';
                } ?>">
 
-                  <i class="nav-icon fas fa-copy"></i>
+                  <i class="nav-icon fas fa-lightbulb"></i>
 
                   <p>Masters<i class="fas fa-angle-left right"></i></p>
 
                </a>
 
-               <ul class="nav nav-treeview">
+               <ul class="nav nav-treeview ml-2">
 
                   <li class="nav-item">
 
-                     <a href="<?= base_url('admin/masters') ?>"
-                        class="nav-link <?php if ($sub_title == 'Category') {
-                           echo 'active';
-                        } ?>">
+                     <a href="<?= base_url('admin/masters') ?>" class="nav-link <?php if ($sub_title == 'Category') {
+                          echo 'active';
+                       } ?>">
 
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="fas fa-tasks nav-icon"></i>
 
                         <p>Entrance Exam</p>
 
@@ -132,12 +132,11 @@
 
                   <li class="nav-item">
 
-                     <a href="<?= base_url('admin/masters/view_subcategory') ?>"
-                        class="nav-link  <?php if ($sub_title == 'Sub Category') {
-                           echo 'active';
-                        } ?>">
+                     <a href="<?= base_url('admin/masters/view_subcategory') ?>" class="nav-link  <?php if ($sub_title == 'Sub Category') {
+                          echo 'active';
+                       } ?>">
 
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="fas fa-book nav-icon"></i>
 
                         <p>Subject</p>
 
@@ -148,8 +147,8 @@
                   <!--  <li class="nav-item">
 
                      <a href="<?= base_url('admin/masters/view_domain') ?>" class="nav-link  <?php if ($sub_title == 'Domain') {
-                        echo 'active';
-                     } ?>">
+                          echo 'active';
+                       } ?>">
 
                         <i class="far fa-circle nav-icon"></i>
 
@@ -161,12 +160,11 @@
 
                   <li class="nav-item">
 
-                     <a href="<?= base_url('admin/masters/view_university') ?>"
-                        class="nav-link <?php if ($sub_title == 'University') {
-                           echo 'active';
-                        } ?>">
+                     <a href="<?= base_url('admin/masters/view_university') ?>" class="nav-link <?php if ($sub_title == 'University') {
+                          echo 'active';
+                       } ?>">
 
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="fas fa-university nav-icon"></i>
 
                         <p>University</p>
 
@@ -176,12 +174,11 @@
 
                   <li class="nav-item">
 
-                     <a href="<?= base_url('admin/masters/view_college') ?>"
-                        class="nav-link <?php if ($sub_title == 'College') {
-                           echo 'active';
-                        } ?>">
+                     <a href="<?= base_url('admin/masters/view_college') ?>" class="nav-link <?php if ($sub_title == 'College') {
+                          echo 'active';
+                       } ?>">
 
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="fas fa-building nav-icon"></i>
 
                         <p>Colleges</p>
 
@@ -191,12 +188,11 @@
 
                   <li class="nav-item">
 
-                     <a href="<?= base_url('admin/masters/view_country') ?>"
-                        class="nav-link <?php if ($sub_title == 'Country') {
-                           echo 'active';
-                        } ?>">
+                     <a href="<?= base_url('admin/masters/view_country') ?>" class="nav-link <?php if ($sub_title == 'Country') {
+                          echo 'active';
+                       } ?>">
 
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="fas fa-flag nav-icon"></i>
 
                         <p>Country</p>
 
@@ -206,12 +202,11 @@
 
                   <li class="nav-item">
 
-                     <a href="<?= base_url('admin/masters/view_state') ?>"
-                        class="nav-link <?php if ($sub_title == 'State') {
-                           echo 'active';
-                        } ?>">
+                     <a href="<?= base_url('admin/masters/view_state') ?>" class="nav-link <?php if ($sub_title == 'State') {
+                          echo 'active';
+                       } ?>">
 
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="fas fa-compass nav-icon"></i>
 
                         <p>State</p>
 
@@ -221,12 +216,11 @@
 
                   <li class="nav-item">
 
-                     <a href="<?= base_url('admin/masters/view_city') ?>"
-                        class="nav-link <?php if ($sub_title == 'City') {
-                           echo 'active';
-                        } ?>">
+                     <a href="<?= base_url('admin/masters/view_city') ?>" class="nav-link <?php if ($sub_title == 'City') {
+                          echo 'active';
+                       } ?>">
 
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="fas fa-city nav-icon"></i>
 
                         <p>City</p>
 
@@ -240,12 +234,11 @@
 
             <li class="nav-item">
 
-               <a href="<?= base_url('admin/video') ?>"
-                  class="nav-link <?php if ($page_title == 'Video') {
-                     echo 'active';
-                  } ?>">
+               <a href="<?= base_url('admin/video') ?>" class="nav-link <?php if ($page_title == 'Video') {
+                    echo 'active';
+                 } ?>">
 
-                  <i class="nav-icon fas fa-th"></i>
+                  <i class="nav-icon fas fa-video"></i>
 
                   <p>Videos</p>
 
@@ -255,10 +248,9 @@
 
             <li class="nav-item has-treeview menu-open">
 
-               <a href="#"
-                  class="nav-link <?php if ($page_title == 'Exam' || $page_title == 'Mock Test') {
-                     echo 'active';
-                  } ?>">
+               <a href="#" class="nav-link <?php if ($page_title == 'Exam' || $page_title == 'Mock Test') {
+                  echo 'active';
+               } ?>">
 
                   <i class="nav-icon fas fa-copy"></i>
 
@@ -266,16 +258,15 @@
 
                </a>
 
-               <ul class="nav nav-treeview">
+               <ul class="nav nav-treeview ml-2">
 
                   <li class="nav-item">
 
-                     <a href="<?= base_url('admin/exam') ?>"
-                        class="nav-link <?php if ($page_title == 'Exam Details') {
-                           echo 'active';
-                        } ?>">
+                     <a href="<?= base_url('admin/exam') ?>" class="nav-link <?php if ($page_title == 'Exam Details') {
+                          echo 'active';
+                       } ?>">
 
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="far fa-file nav-icon"></i>
 
                         <p style="color:greenyellow">View All Papers</p>
 
@@ -285,12 +276,11 @@
 
                   <li class="nav-item">
 
-                     <a href="<?= base_url('admin/exam/add_exam') ?>"
-                        class="nav-link <?php if ($page_title == 'Exam') {
-                           echo 'active';
-                        } ?>">
+                     <a href="<?= base_url('admin/exam/add_exam') ?>" class="nav-link <?php if ($page_title == 'Exam') {
+                          echo 'active';
+                       } ?>">
 
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="fas fa-plus-circle nav-icon"></i>
 
                         <p style="color:orangered">Add New Mock</p>
 
@@ -300,16 +290,15 @@
 
                </ul>
 
-               <ul class="nav nav-treeview">
+               <ul class="nav nav-treeview ml-2">
 
                   <li class="nav-item">
 
-                     <a href="<?= base_url('admin/mock_test') ?>"
-                        class="nav-link <?php if ($page_title == 'Mock Test') {
-                           echo 'active';
-                        } ?>">
+                     <a href="<?= base_url('admin/mock_test') ?>" class="nav-link <?php if ($page_title == 'Mock Test') {
+                          echo 'active';
+                       } ?>">
 
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="far fa-question-circle nav-icon"></i>
 
                         <p style="color:yellow">View All Questions</p>
 
@@ -319,12 +308,11 @@
 
                   <li class="nav-item">
 
-                     <a href="<?= base_url('admin/mock_test/add_coursemock') ?>"
-                        class="nav-link <?php if ($page_title == 'Mock Details') {
-                           echo 'active';
-                        } ?>">
+                     <a href="<?= base_url('admin/mock_test/add_coursemock') ?>" class="nav-link <?php if ($page_title == 'Mock Details') {
+                          echo 'active';
+                       } ?>">
 
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="fas fa-plus-circle nav-icon"></i>
 
                         <p style="color:deepskyblue">Add Question</p>
 
@@ -334,12 +322,11 @@
 
                   <li class="nav-item">
 
-                     <a href="<?= base_url('admin/mock_test/csv_upload') ?>"
-                        class="nav-link <?php if ($page_title == 'Mock_Details') {
-                           echo 'active';
-                        } ?>">
+                     <a href="<?= base_url('admin/mock_test/csv_upload') ?>" class="nav-link <?php if ($page_title == 'Mock_Details') {
+                          echo 'active';
+                       } ?>">
 
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="far fa-file-alt nav-icon"></i>
 
                         <p>Create Mock Test CSV</p>
 
@@ -355,7 +342,7 @@
 
                <a href="#" class="nav-link">
 
-                  <i class="fas fa-users"></i>
+                  <i class="fas fa-users mr-1"></i>
 
                   <p>
 
@@ -367,13 +354,13 @@
 
                </a>
 
-               <ul class="nav nav-treeview">
+               <ul class="nav nav-treeview ml-2">
 
                   <li class="nav-item">
 
                      <a href="<?= base_url('admin/student') ?>" class="nav-link">
 
-                        <i class="fas fa-users"></i>
+                        <i class="fas fa-user-graduate mr-1"></i> 
 
                         <p>View Students</p>
 
@@ -385,9 +372,20 @@
 
                      <a href="<?= base_url('admin/student/history') ?>" class="nav-link">
 
-                        <i class="fas fa-history"></i>
+                        <i class="fas fa-history mr-1"></i>
 
                         <p>Student History</p>
+
+                     </a>
+
+                  </li>
+                  <li class="nav-item">
+
+                     <a href="<?= base_url('admin/result') ?>" class="nav-link">
+
+                        <i class="fas fa-poll mr-1"></i>
+
+                        <p>Results</p>
 
                      </a>
 
@@ -399,12 +397,11 @@
 
             <li class="nav-item">
 
-               <a href="<?= base_url('admin/payment') ?>"
-                  class="nav-link <?php if ($sub_title == 'Payment') {
-                     echo 'active';
-                  } ?>">
+               <a href="<?= base_url('admin/payment') ?>" class="nav-link <?php if ($sub_title == 'Payment') {
+                    echo 'active';
+                 } ?>">
 
-                  <i class="nav-icon fas fa-copy"></i>
+                  <i class="nav-icon fas fa-receipt"></i>
 
                   <p>Payment Report</p>
 
@@ -412,16 +409,15 @@
 
             </li>
 
-            <li class="nav-header">Settings</li>
+            <li class="nav-header py-0">Settings</li>
 
             <li class="nav-item">
 
-               <a href="<?= base_url('admin/profile') ?>"
-                  class="nav-link <?php if ($page_title == 'Update Password') {
-                     echo 'active';
-                  } ?>">
+               <a href="<?= base_url('admin/profile') ?>" class="nav-link <?php if ($page_title == 'Update Password') {
+                    echo 'active';
+                 } ?>">
 
-                  <i class="nav-icon far fa-circle text-info"></i>
+                  <i class="nav-icon fas fa-key text-info"></i>
 
                   <p>Change Password</p>
 

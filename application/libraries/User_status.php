@@ -37,10 +37,6 @@ class User_status
 		        	return 0;
 		        }
 			}
-			else
-			{
-				redirect('login/logout');
-			}
 		}
 		else
 		{

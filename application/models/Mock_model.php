@@ -241,10 +241,20 @@ public function get_student_answers_count($exam_id, $student_id)
                     ->get('student_history')
                     ->row()->total_answer;
 }
-   
-    
-    
-   
+public function free_test_questions() {
+    // Subquery to get category_id for 'Free Test'
+    $subquery = $this->db->select('category_id')
+                         ->from('category')
+                         ->where('category_name', 'Free Test')
+                         ->get_compiled_select();
+
+    // Main query to get questions from mock_test based on the category_id
+    $questions = $this->db->query('SELECT * FROM mock_test WHERE category_id = ('.$subquery.')');
+
+    return $questions->result_array();  // Return all rows as an array
+}
+
+
 
 }
 ?>

@@ -37,7 +37,7 @@ $(document).ready(function () {
                     var obj = jQuery.parseJSON(theResponse);
                     if(obj.resultCode == 1) {
                     //alert($('#site_url').val() + 'admin/home')
-                    window.location = site_url('login/otp_verification');
+                        window.location = site_url('login/otp_verification');
                     }
                     if (obj.resultCode == 0) {
                         $('#ajax_error').html(obj.resultMsg);

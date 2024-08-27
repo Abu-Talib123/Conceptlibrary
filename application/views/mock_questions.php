@@ -80,22 +80,7 @@ body {
             <input type="hidden" name="exam_second"  id="exam_second" value="<?php echo $second;?>"/>
             <input type="hidden"  id="exam_duration" value="<?php echo $time;?>"/>
             <strong>Time Left:<span id="countdown" class="timer"></span></strong>  &nbsp;&nbsp;&nbsp;
-            <div class="modal fade" id="modal-default">
-               <div class="modal-dialog modal-default ">
-                  <div class="modal-content">
-                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                     </div>
-                     <div class="modal-body">
-                        <?php include 'calculator.php'?>
-                     </div>
-                  </div>
-                  <!-- /.modal-content -->
-               </div>
-               <!-- /.modal-dialog -->
-            </div>
+           
          </div>
       </div>
    </div>
@@ -328,15 +313,19 @@ body {
                 }
               }
                   ?>
-               <div class="col-lg-4 col-md-6 mb-5 mb-lg-5">
+               <div class="col-lg-4 col-md-6 mb-5 mb-lg-5 mt-4">
                   <!-- Left Nav -->     
                   <div class="Rght_Section column" id="col2">
                      <div id="User_Hldr" onclick="showProfile();">
                         <div class="singleImageDiv">
                            <div class="profile_image">
-                              <img width="150" height="150" align="absmiddle" class="candidateImg" src="<?=base_url('assets/cl')?>/images/profile.jpg" />
+                              <?php if (is_null($this->session->userdata('CL_STUDENT_PHOTO'))): ?>
+                                 <img width="auto" height="150" align="absmiddle" class="candidateImg" src="<?=base_url('assets/cl')?>/images/profile.jpg" />
+                              <?php else: ?>
+                                 <img width="auto" height="150" align="absmiddle" class="candidateImg" src="<?php echo $this->session->userdata('CL_STUDENT_PHOTO');?>" />
+                              <?php endif ?>
                            </div>
-                           <div class="profile_details">
+                           <div class="profile_details py-1">
                               <div id="Username" class="candOriginalName" title="Vikas"><?php  echo $this->session->userdata('CL_STUDENT_USERNAME');?> </div>
                               <!--<div id="viewProButton"><a id = "VPT" class="viewProfile auditlogButton thickbox" onclick="showModule('profileDiv');activeLink(this.id)">View Profile</a></div>-->
                            </div>
@@ -365,7 +354,7 @@ body {
                                  <span class="review markedCount" id="markedforreview"><?=$markedforreview?></span> <span class="type_title markedLabel longtext-hide" title="Marked for Review">Marked for Review</span>
                               </div>
                               <div class="clear"></div>
-                              <!-- <div class="notation_typeDiv answered_review_container review_mark" id="" style="display: none;">
+                                 <!-- <div class="notation_typeDiv answered_review_container review_mark" id="" style="display: none;">
                                  <span class="review_marked markedReviewCount" id="">0</span>
                                  <span class="type_title markedAndAnsweredLabel" id="" title="Answered &amp; Marked for Review (will be considered for evaluation)">Answered &amp; Marked for Review (will be considered for evaluation)</span>
                                  </div>

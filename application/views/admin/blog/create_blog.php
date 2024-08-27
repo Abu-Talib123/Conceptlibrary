@@ -40,13 +40,13 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-2">
-                            <div class="modal fade" id="createCategoryModal" tabindex="-1" role="dialog"
+                                <div class="modal fade" id="createCategoryModal" tabindex="-1" role="dialog"
                                     aria-labelledby="createCategoryModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-body">
-                                                <button type="button" class="close position-absolute bg-danger px-3" style="right:0; top:0; " data-dismiss="modal"
-                                                    aria-label="Close">
+                                                <button type="button" class="close position-absolute bg-danger px-3"
+                                                    style="right:0; top:0; " data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                                 <form id="createCategoryForm">
@@ -73,7 +73,7 @@
                             <div class="col-lg-12">
 
                                 <div class="row justify-content-between">
-                                    <div class="col-lg-8 align-self-center">
+                                    <div class="col-lg-8 align-self-start">
                                         <div class="form-group">
                                             <label for="title">Title</label>
                                             <input type="text" class="form-control" id="title" name="title" required>
@@ -86,9 +86,10 @@
                                     </div>
                                     <div class="col-lg-3 align-self-center ">
                                         <div class="form-group ">
-                                            <img width="auto" height="150" align="absmiddle" id="uploadImage"
+                                            <label for="author_name">Blog Image</label>
+                                            <img width="100%" height="150" align="absmiddle" id="uploadImage"
                                                 class="blog-img mx-auto"
-                                                src="<?= base_url('assets/cl/images/user_pic.png') ?>"
+                                                src="<?= base_url('assets/cl/images/default-image.jpg') ?>"
                                                 style="cursor:pointer;" />
                                             <input type="file" class="form-control" id="fileInput" name="blog_img"
                                                 style="display: none;">
@@ -100,7 +101,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="category_id">Category</label>
-                                            <a href="#" data-toggle="modal" data-target="#createCategoryModal" class = 'float-right text-info'>Add new</a>
+                                            <a href="#" data-toggle="modal" data-target="#createCategoryModal"
+                                                class='float-right text-info'>Add new</a>
                                             <select class="form-control" id="category_id" name="category_id" required>
                                                 <option value="">Select Category</option>
                                                 <?php foreach ($categories as $category): ?>
@@ -123,9 +125,6 @@
                     </div>
 
                     <!-- /.card-body -->
-
-
-
                 </div>
 
             </div>
@@ -138,6 +137,34 @@
 
 </section>
 <script>
+    $(document).ready(function () {
+        // Handle form submission
+        $('form').submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status) {
+                        // Redirect to the URL returned by the server
+                        window.location.href = response.redirect_url;
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function () {
+                    alert('Error creating blog');
+                }
+            });
+        });
+    });
+
     document.getElementById('uploadImage').onclick = function () {
         document.getElementById('fileInput').click();
     };

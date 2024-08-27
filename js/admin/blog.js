@@ -1,49 +1,4 @@
 
-function ajax_pagination_blog(pageLink) {
-  
-  $('#blog_data').html('<tr><td colspan="9" align="center"><i class="fa fa-spinner fa-spin fa-2x"></i></td></tr>');
-  
-  var url = site_url('admin/blog/fetch_blog/1');
-
-  if(pageLink) {
-    url = pageLink.attr('href');
-  }
-
-  var data = {
-      };
-
-  $.ajax({
-    url: url,
-    type: "POST",
-    data: data,
-    success: function (theResponse) {
-      var obj = jQuery.parseJSON(theResponse);
-      //$('#loader').show()
-      console.log(obj.pagination)
-      $('#blog_data').html(obj.search_result);
-      $('#pagination .paging').html(obj.pagination);
-    }
-  });
-
-  return false;
-}
-
-function ajax_edit_redirect(link) {
-  var url = $(link).attr('href');
-
-  $.ajax({
-      url: url,
-      type: 'GET',
-      success: function(response) {
-          $('#content').html(response);
-      },
-      error: function(xhr, status, error) {
-          alert('An error occurred: ' + xhr.responseText);
-      }
-  });
-
-  return false;
-}
 
 // Create category
 

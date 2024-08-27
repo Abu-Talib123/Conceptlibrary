@@ -16,7 +16,7 @@ class Blog_model extends CI_Model
     }
     function fetch_blogdata($start_row, $limit)  
     { 
-       $qry     =   $this->db->query("SELECT * FROM blog WHERE is_deleted = 0 ORDER BY blog_id  ASC limit  $start_row, $limit");
+       $qry     =  $this->db->query("SELECT * FROM blog WHERE is_deleted = 0 AND is_published = 1 ORDER BY blog_id DESC LIMIT $start_row, $limit");
       
         if($qry->num_rows() > 0) {
             return $qry->result_array();
